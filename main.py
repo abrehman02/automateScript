@@ -15,7 +15,7 @@ EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("APP_PASSWORD")
 
 # Load Excel sheet
-workbook = load_workbook("list.xlsx")
+workbook = load_workbook("Bytedance.xlsx")
 sheet = workbook["Bytedance"]
 
 # Extract headers and rows
@@ -30,8 +30,11 @@ rows = list(sheet.iter_rows(min_row=2, values_only=True))
 data = [dict(zip(headers, row)) for row in rows]
 
 # Setup SMTP
-server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+# ✅ NEW: Gmail SMTP
+server = smtplib.SMTP("smtp.gmail.com", 587)
+server.starttls()
 server.login(EMAIL, PASSWORD)
+
 
 # Create or append to log file
 LOG_FILE = "logs.csv"
